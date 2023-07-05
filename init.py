@@ -14,6 +14,34 @@ class TreasurPy():
             return "Fields not valid"
         else:
             return resp.status_code
+        
+    def format_filters(self, filters):
+        """
+        filters passed into parameters as list of strings 
+        ["foo_bar==2023-06-30", "foo_bar<=20"]
+        valid conditionals are:
+        <, <=, >, >=, ==, === 
+        """
+
+        filter_conditional = {
+            "<" : "lt",
+            "<=" : "lte",
+            ">" : "gt",
+            ">=" : "gte",
+            "==" : "eq",
+            "===" : "in"
+        }
+
+        for index, filter in enumerate(filters):
+            for condition in filter_conditional:
+                if condition in filter:
+                    filter = filter.replace(condition, ":"+filter_conditional[condition]+":")
+                    filters[index] = filter
+
+        filters_str = ','.join(filters)
+        return filters_str
+                    
+
 
 
 
@@ -22,6 +50,10 @@ class TreasurPy():
 
         if "fields" in parameters:
             endpoint = endpoint + "?fields=" + parameters["fields"]
+
+        if "filters" in parameters:
+            formatted_filters = self.format_filters(parameters["filters"])
+            endpoint = endpoint + "?filter=" + formatted_filters
 
 
         if "pagination" in parameters:
@@ -35,9 +67,6 @@ class TreasurPy():
 
 wrapper = TreasurPy()
 print(wrapper.get_debt_to_penny({
-    "pagination": {
-        "number":"2",
-        "size":"500"
-    }
+    "filters": ["record_fiscal_year==2023","record_fiscal_quarter==2"]
 
 }))
