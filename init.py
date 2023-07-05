@@ -40,6 +40,23 @@ class TreasurPy():
 
         filters_str = ','.join(filters)
         return filters_str
+    
+
+    def format_pagination(self, pagination):
+        """
+        take in paignation dictionary and return formatted string 
+        page[number]={value}&page[size]={value}
+        """
+        pagination_arr = []
+        for value in pagination:
+            if value == "number" or value == "size":
+                pagination_arr.append(f"page[{value}]={pagination[value]}")
+
+            else:
+                print("error wrong paignation format")
+
+        pagination_str = '&'.join(pagination_arr)
+        return pagination_str
                     
 
 
@@ -57,7 +74,8 @@ class TreasurPy():
 
 
         if "pagination" in parameters:
-            endpoint = endpoint + "?page[number]=" + parameters["pagination"]["number"] + "&page[size]=" + parameters["pagination"]["size"]
+            formatted_pagination = self.format_pagination(parameters["pagination"])
+            endpoint = endpoint + "?"+formatted_pagination
 
 
         response = requests.get(self.base_url + endpoint)
@@ -67,6 +85,9 @@ class TreasurPy():
 
 wrapper = TreasurPy()
 print(wrapper.get_debt_to_penny({
-    "filters": ["record_fiscal_year==2023","record_fiscal_quarter==2"]
+    "pagination": {
+        "number":1,
+        "size": 10
+    }
 
 }))
