@@ -40,7 +40,7 @@ class TreasurPy():
 
         filters_str = ','.join(filters)
         return filters_str
-    
+
 
     def format_pagination(self, pagination):
         """
@@ -57,9 +57,30 @@ class TreasurPy():
 
         pagination_str = '&'.join(pagination_arr)
         return pagination_str
+    
+
+    def format_sorting(self, sorting):
+        """
+        take in sorting dictionary which has a key of the feild name and a value of increasing or decreasing
+        format correctly and return as comma seperated list
+        """
+        sorting_arr = []
+        for value in sorting:
+            if sorting[value] == "increasing":
+                sorting_arr.append(f"+{value}")
+
+            elif sorting[value] == "decreasing":
+                sorting_arr.append(f"-{value}")
+
+            else:
+                print("error wrong sorting format format")
+        
+        sorting_str = ','.join(sorting_arr)
+        return sorting_str
+        
+            
+
                     
-
-
 
 
     def get_debt_to_penny(self, parameters):
@@ -72,10 +93,14 @@ class TreasurPy():
             formatted_filters = self.format_filters(parameters["filters"])
             endpoint = endpoint + "?filter=" + formatted_filters
 
-
         if "pagination" in parameters:
             formatted_pagination = self.format_pagination(parameters["pagination"])
             endpoint = endpoint + "?"+formatted_pagination
+
+        if "sorting" in parameters:
+            formatted_sort = self.format_sorting(parameters["sorting"])
+            endpoint = endpoint + "?sort=" + formatted_sort
+
 
 
         response = requests.get(self.base_url + endpoint)
@@ -85,9 +110,8 @@ class TreasurPy():
 
 wrapper = TreasurPy()
 print(wrapper.get_debt_to_penny({
-    "pagination": {
-        "number":1,
-        "size": 10
+    "sorting" : {
+        "record_date" : "decreasing"
     }
 
 }))
