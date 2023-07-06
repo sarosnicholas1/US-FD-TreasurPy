@@ -80,8 +80,6 @@ class TreasurPy():
         
             
 
-                    
-
 
     def get_debt_to_penny(self, parameters):
         endpoint = "v2/accounting/od/debt_to_penny"
@@ -98,9 +96,11 @@ class TreasurPy():
             endpoint = endpoint + "?"+formatted_pagination
 
         if "sorting" in parameters:
-            formatted_sort = self.format_sorting(parameters["sorting"])
-            endpoint = endpoint + "?sort=" + formatted_sort
+            formatted_sorting = self.format_sorting(parameters["sorting"])
+            endpoint = endpoint + "?sort=" + formatted_sorting
 
+        if "format" in parameters:
+            endpoint = endpoint + "?format=" + parameters["format"]
 
 
         response = requests.get(self.base_url + endpoint)
@@ -110,8 +110,7 @@ class TreasurPy():
 
 wrapper = TreasurPy()
 print(wrapper.get_debt_to_penny({
-    "sorting" : {
-        "record_date" : "decreasing"
-    }
+   
+    "format":"json"
 
 }))
