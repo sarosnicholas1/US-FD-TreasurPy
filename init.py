@@ -101,12 +101,7 @@ class TreasurPy():
         else:
             return format
 
-            
-            
-
-
-    def get_debt_to_penny(self, parameters):
-        endpoint = "v2/accounting/od/debt_to_penny"
+    def add_parameters(self, parameters, endpoint):
 
         if "fields" in parameters:
             formatted_fields = self.format_fields(parameters["fields"])
@@ -128,8 +123,15 @@ class TreasurPy():
             formatted_output = self.format_output(parameters["format"])
             endpoint = endpoint + "?format=" + formatted_output
 
-        print(self.base_url+endpoint)
-        response = requests.get(self.base_url + endpoint)
+        return endpoint
+
+
+    def get_debt_to_penny(self, parameters):
+        endpoint = "v2/accounting/od/debt_to_penny"
+        formatted_endpoint = self.add_parameters(parameters, endpoint)
+
+        print(self.base_url+formatted_endpoint)
+        response = requests.get(self.base_url + formatted_endpoint)
         return self.checkResponse(response)
 
 
@@ -137,6 +139,6 @@ class TreasurPy():
 wrapper = TreasurPy()
 print(wrapper.get_debt_to_penny({
    
-    "format":"json"
+    "fields":["record_fiscal_quarter", "record_fiscal_year"]
 
 }))
