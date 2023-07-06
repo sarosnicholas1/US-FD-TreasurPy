@@ -134,11 +134,24 @@ class TreasurPy():
         response = requests.get(self.base_url + formatted_endpoint)
         return self.checkResponse(response)
 
+    def get_daily_treasury_statement(self, parameters):
+        endpoint = "v1/accounting/dts/dts_table_1"
+        formatted_endpoint = self.add_parameters(parameters, endpoint)
+
+        print(self.base_url+formatted_endpoint)
+        response = requests.get(self.base_url + formatted_endpoint)
+        return self.checkResponse(response)
 
 
 wrapper = TreasurPy()
+"""
 print(wrapper.get_debt_to_penny({
    
     "fields":["record_fiscal_quarter", "record_fiscal_year"]
 
+}))
+"""
+
+print(wrapper.get_daily_treasury_statement({
+    "fields": ["record_date", "account_type"]
 }))
