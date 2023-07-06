@@ -15,6 +15,16 @@ class TreasurPy():
         else:
             return resp.status_code
         
+
+    def format_fields(self, fields):
+        """
+        fields passed in as list of strings
+        return list as comma seperated string
+        """
+        fields_str = ','.join(fields)
+        return fields_str
+
+        
     def format_filters(self, filters):
         """
         filters passed into parameters as list of strings 
@@ -77,7 +87,21 @@ class TreasurPy():
         
         sorting_str = ','.join(sorting_arr)
         return sorting_str
+    
+
+    def format_output(self,format):
+        """
+        formats the output type of the request
+        takes in string 
+        """
+        output_opt = ["csv", "json", "xml"]
         
+        if format not in output_opt:
+            print("error on output format options")
+        else:
+            return format
+
+            
             
 
 
@@ -85,7 +109,8 @@ class TreasurPy():
         endpoint = "v2/accounting/od/debt_to_penny"
 
         if "fields" in parameters:
-            endpoint = endpoint + "?fields=" + parameters["fields"]
+            formatted_fields = self.format_fields(parameters["fields"])
+            endpoint = endpoint + "?fields=" + formatted_fields
 
         if "filters" in parameters:
             formatted_filters = self.format_filters(parameters["filters"])
@@ -100,9 +125,10 @@ class TreasurPy():
             endpoint = endpoint + "?sort=" + formatted_sorting
 
         if "format" in parameters:
-            endpoint = endpoint + "?format=" + parameters["format"]
+            formatted_output = self.format_output(parameters["format"])
+            endpoint = endpoint + "?format=" + formatted_output
 
-
+        print(self.base_url+endpoint)
         response = requests.get(self.base_url + endpoint)
         return self.checkResponse(response)
 
