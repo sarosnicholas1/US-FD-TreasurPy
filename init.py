@@ -133,6 +133,7 @@ class TreasurPy():
         print(self.base_url+formatted_endpoint)
         response = requests.get(self.base_url + formatted_endpoint)
         return self.checkResponse(response)
+    
 
     def get_daily_treasury_statement(self, parameters):
         endpoint = "v1/accounting/dts/dts_table_1"
