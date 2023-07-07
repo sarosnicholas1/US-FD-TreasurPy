@@ -201,3 +201,40 @@ class TreasurPy():
         return self.checkResponse(response)
 
 
+    
+    def get_tror(self,parameters):
+        """
+        function for accessing the get Treasury Report on Receivables (TROR)
+        """
+        endpoint = "v2/debt/tror"
+        formatted_endpoint = self.add_parameters(parameters, endpoint)
+
+        print(self.base_url+formatted_endpoint)
+        response = requests.get(self.base_url + formatted_endpoint)
+        return self.checkResponse(response)
+
+
+    def get_schedules_fed_debt_daily_activity(self,parameters):
+        """
+        function for accessing the get Schedules of Federal Debt by Day Activity
+        this table is for daily activity
+        """
+        endpoint = "/v1/accounting/od/schedules_fed_debt_daily_activity"
+        formatted_endpoint = self.add_parameters(parameters, endpoint)
+
+        print(self.base_url+formatted_endpoint)
+        response = requests.get(self.base_url + formatted_endpoint)
+        return self.checkResponse(response)
+
+    def get_schedules_fed_debt_daily_summary(self,parameters):
+        """
+        function for accessing the get Schedules of Federal Debt by Day Summary
+        this table is for daily summary
+        """
+        endpoint = "/v1/accounting/od/schedules_fed_debt_daily_summary"
+        formatted_endpoint = self.add_parameters(parameters, endpoint)
+
+        print(self.base_url+formatted_endpoint)
+        response = requests.get(self.base_url + formatted_endpoint)
+        return self.checkResponse(response)
+
