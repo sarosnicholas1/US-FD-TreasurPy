@@ -10,10 +10,8 @@ class TreasurPy():
             return resp.json()
         
         #checks validity of fields
-        elif resp.status_code == 400:
-            return "Fields not valid"
         else:
-            return resp.status_code
+            return "API call failed check formatting. Status code: " + resp.status_code
         
 
     def format_fields(self, fields):
@@ -167,7 +165,7 @@ class TreasurPy():
     
 
     
-    def get_us_treasury_owned_gold(self, parameters):
+    def get_gold_reserve(self, parameters):
         """
         function for accessing the get_us_treasury_owned_gold dataset
         """
@@ -177,18 +175,29 @@ class TreasurPy():
         print(self.base_url+formatted_endpoint)
         response = requests.get(self.base_url + formatted_endpoint)
         return self.checkResponse(response)
+    
+
+    def get_record_setting_auction(self,parameters):
+        """
+        function for accessing the get recordSetting_treasury_securities_auction_data 
+        """
+        endpoint = "v2/accounting/od/record_setting_auction"
+        formatted_endpoint = self.add_parameters(parameters, endpoint)
+
+        print(self.base_url+formatted_endpoint)
+        response = requests.get(self.base_url + formatted_endpoint)
+        return self.checkResponse(response)
+    
+
+    def get_slgs_securities(self,parameters):
+        """
+        function for accessing the get recordSetting_treasury_securities_auction_data 
+        """
+        endpoint = "v1/accounting/od/slgs_securities"
+        formatted_endpoint = self.add_parameters(parameters, endpoint)
+
+        print(self.base_url+formatted_endpoint)
+        response = requests.get(self.base_url + formatted_endpoint)
+        return self.checkResponse(response)
 
 
-
-wrapper = TreasurPy()
-"""
-print(wrapper.get_debt_to_penny({
-   
-    "fields":["record_fiscal_quarter", "record_fiscal_year"]
-
-}))
-"""
-
-print(wrapper.get_daily_treasury_statement({
-    "fields": ["record_date", "account_type"]
-}))
