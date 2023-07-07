@@ -3,9 +3,9 @@
 This repository is an unofficial Python wrapper for the US Treasury Fiscial Data API. This api includes a substantial number of endpoints which I am continiously working to add. As of the offical version 1, this wrapper includes functions for Debt To Penny, Daily Treasury Statements, 120 Day Delinquent Debt Referral Compliance Report, Gold Reserve, Record Setting Auction, State and Local Government Series Securities (Non-Marketable), Treasury Report on Receivables (TROR), Schedules of Federal Debt by Day Activity and Schedules of Federal Debt by Day Summary.
 
 #Usage
-import TreasurPy
+from TreasurPy import tp
 
-tp = TreasuryPy()
+ex: tp.get_debt_to_penny({})
 
 When calling the dataset, a parameters dictionary must be passed into the function. The parameters dictionary can contain parameters which can provided added functionality such as filtering, sorting, and formatting.
 
@@ -29,4 +29,6 @@ parameters = {
   },
   "output" : "foo"
 }
+
+
 tp.get_debt_to_penny({})
