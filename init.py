@@ -102,6 +102,12 @@ class TreasurPy():
             return format
 
     def add_parameters(self, parameters, endpoint):
+        """
+        function for adding all parameters to a specified endpoint
+        previously was included in each get function but remove to clean code
+        takes in a parameters dictionary and an endpoint string 
+        returns an endpoit string that has been formatted with the provided parameters
+        """
 
         if "fields" in parameters:
             formatted_fields = self.format_fields(parameters["fields"])
@@ -136,12 +142,42 @@ class TreasurPy():
     
 
     def get_daily_treasury_statement(self, parameters):
+        """
+        function for accessing the daily treasury statement dataset
+        """
         endpoint = "v1/accounting/dts/dts_table_1"
         formatted_endpoint = self.add_parameters(parameters, endpoint)
 
         print(self.base_url+formatted_endpoint)
         response = requests.get(self.base_url + formatted_endpoint)
         return self.checkResponse(response)
+    
+
+    
+    def get_120_day_delinquent_debt_referral_compliance_report(self, parameters):
+        """
+        function for accessing the 120_day_delinquent_debt_referral_compliance_report dataset
+        """
+        endpoint = "v2/debt/tror/data_act_compliance"
+        formatted_endpoint = self.add_parameters(parameters, endpoint)
+
+        print(self.base_url+formatted_endpoint)
+        response = requests.get(self.base_url + formatted_endpoint)
+        return self.checkResponse(response)
+    
+
+    
+    def get_us_treasury_owned_gold(self, parameters):
+        """
+        function for accessing the get_us_treasury_owned_gold dataset
+        """
+        endpoint = "v2/accounting/od/gold_reserve"
+        formatted_endpoint = self.add_parameters(parameters, endpoint)
+
+        print(self.base_url+formatted_endpoint)
+        response = requests.get(self.base_url + formatted_endpoint)
+        return self.checkResponse(response)
+
 
 
 wrapper = TreasurPy()
